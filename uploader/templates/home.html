@@ -3,17 +3,19 @@
 
 
 		<form action="#" method="post" enctype="multipart/form-data">
-            {% csrf_token %} {{time}}
-            <input type="text">
-			{% csrf_token %} {{form}} 
+            <a>Type of date is YYYY-MM-DD HH:MM</a>
+            {% csrf_token %} {{form}}
 			<input type="submit" value="Upload" />
+
 		</form><hr>
 
 		<ul>
 		{% for img in images %}
 			<li><a href="/uploader{{ img.pic.url }}">{{ img.pic }}</a>
 			<small>({{img.upload_date}})</small>
-            <small>({{img.time}})</small></li>
+                <small>delete in - </small>
+            <small>({{img.expired_date}})</small>
+            </li>
 		{% endfor %}
 		</ul>
 	</div>

@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from uploader.models import UploadForm, Upload
+from uploader.models import Upload
+from uploader.forms import UploadForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -14,5 +15,5 @@ def home(request):
             return HttpResponseRedirect(reverse('imageupload'))
     else:
         img = UploadForm()
-    images = Upload.objects.all().order_by('-time')
+    images = Upload.objects.all().order_by('-expired_date')
     return render(request, 'home.html', {'form': img, 'images': images})
