@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from uploader.models import Upload
 from uploader.forms import UploadForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.contrib.auth.decorators import login_required
 
 @login_required
