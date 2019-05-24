@@ -16,7 +16,7 @@
 
 
 		<form action="#" method="post" enctype="multipart/form-data">
-            <a>Type of date is YYYY-MM-DD HH:MM</a>
+            <p>Type of date is YYYY-MM-DD HH:MM</p>
             {% csrf_token %} {{form}}
 			<input type="submit" value="Upload" />
 
@@ -25,7 +25,7 @@
 
 		<ul>
 		{% for img in images %}
-			<li><a href="/uploader{{ img.pic.url }}">{{ img.pic }}</a>
+			<li><a href="{{ img.pic.url }}">{{ img.pic }}</a> </a>
 			<small>({{img.upload_date}})</small>
                 <small>delete in - </small>
             <small>({{img.expired_date}})</small>

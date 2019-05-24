@@ -5,22 +5,23 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from uploader.models import Upload
 from uploader.forms import UploadForm
-
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
+
 
 @login_required
 def home(request):
     if request.method == "POST":
-        img = UploadForm(request.POST, request.FILES)
-        if img.is_valid():
-            img.save()
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            data = form.cleaned_data
+            data['borrower'] = request.user
+            Upload.objects.create(**data)
             return HttpResponseRedirect(reverse('imageupload'))
     else:
-        img = UploadForm()
-
-    images = Upload.objects.all().order_by('upload_date')
-
-    return render(request, 'home.html', {'form': img, 'images': images})
+        form = UploadForm()
+    images = Upload.objects.filter(borrower=request.user, expired_date__gte=datetime.now()).order_by('upload_date')
+    return render(request, 'home.html', {'form': form, 'images': images})
 
 def registration(request):
     if request.method == "POST":
@@ -34,6 +35,6 @@ def registration(request):
             return redirect(home)
     else:
         form = UserCreationForm()
-    contex = {'form' : form}
-    return render(request, 'registration/registration.html', contex)
+    context = {'form' : form}
+    return render(request, 'registration/registration.html', context)
 
